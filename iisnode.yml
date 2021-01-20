@@ -1,0 +1,2 @@
+nodeProcessCountPerApplication: 1
+maxConcurrentRequestsPerProcess: 2

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>Contoso Corporation - Reports</title>
+  <!-- Bootstrap core CSS -->
+  <link href="styles/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="styles/bootstrap/css/contoso.css" rel="stylesheet">
+</head>
+<body>
+
+  <header>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+      <div class="container">
+        <a class="navbar-brand" href="index.html">Contoso Corporation</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                  <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item active">
+                  <a class="nav-link" href="#">Reports
+                    <span class="sr-only">(current)</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="admin.html">Admin</a>
+                </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Page Content -->
+  <main role="main">
+      <section id="title-section" class="section-padding">
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-12 text-center">
+                <h1 class="mt-5"><img class="logo" src="images/logo.png" alt="Logo"></h1> 
+              </div>    
+            </div>
+          </div>
+      </section>
+
+      <section id="services-section" class="section-padding">
+          <div class="container">
+                <div class="row">
+                    <div class="jumbotron">
+                        <div class="media">
+                            <img class="mr-3" src="images/reports0.png" alt="Reports">
+                            <div class="media-body">
+                              <h1 class="mt-0">Reports</h1>  
+                              <hr class="my-6">
+                              <p class="lead">Regional hubs use regional application servers for
+                                  the regional and satellite offices. These servers
+                                  synchronize with servers in the Paris headquarters, 
+                                  you can see all the reports for these offices here....</p>      
+                              <a href="#" id="reports" class="btn btn-primary">View</a>
+                            </div>
+                        </div>
+                      </div>
+                      <div id="refresh" class="mx-auto" style="width: 200px;"></div>
+                </div>
+              <div class="row">
+                  <div id="statusVisible" class="invisible">
+                    <div class="card">
+                          <h5 class="card-header">Reports</h5>
+                          <div class="card-body">
+                            <h5 class="card-title">Regional Application Servers Reports</h5>
+                            <p class="card-text"><img src="images/reports1.png" alt="Reports"></p>
+                            <div id="response" class="shadow-none p-3 mb-5 bg-light rounded"></div> 
+                          </div>
+                    </div>
+                  </div>
+              </div>
+          </div>
+      </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="text-muted">
+      <div class="container">
+        <p class="float-right">
+          <a href="#">Back to top</a>
+        </p>
+        <p>Contoso Corporation WebSite</p>
+        <p>All the information displayed in this web site has being taken from this reference: 
+          <a href="https://docs.microsoft.com/en-us/microsoft-365/enterprise/contoso-overview">Overview of the Contoso Corporation</a>.
+        </p>
+      </div>
+  </footer>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="styles/jquery/custom.js"></script>
+  <script src="styles/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="http://code.jquery.com/jquery-latest.js"></script>
+
+  <script type="text/javascript">
+    function loadingImage() {
+      var loading = '<img src="images/loading.gif"/><br/>'
+      $('#refresh').html(loading);
+    }
+
+    function ajaxCallback(result) {
+      var jsonResult = result.response;
+      if(jsonResult!=undefined) {
+        $("#statusVisible").removeClass("invisible").addClass("visible");
+        $('#response').html(jsonResult);
+        $('#refresh').html("");
+      }
+    }
+
+    $(document).ready(function() {
+      $("#reports").click(function(e){
+        if($("#statusVisible").hasClass("visible")){
+          $("#statusVisible").removeClass("visible").addClass("invisible"); 
+        }
+        loadingImage();
+        $("#refresh img").load(function() {
+          apiCallAsync('GET', null,'/api/reports', ajaxCallback);
+        }).attr('src', src);
+        return false;
+      });
+    });
+  </script>
+
+</body>
+</html>

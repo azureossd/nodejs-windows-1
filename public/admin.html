@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Contoso Corporation - Admin</title>
+  <!-- Bootstrap core CSS -->
+  <link href="styles/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="styles/bootstrap/css/contoso.css" rel="stylesheet">
+
+</head>
+<body>
+
+  <header>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+      <div class="container">
+        <a class="navbar-brand" href="/">Contoso Corporation</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Admin
+                      <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Page Content -->
+  <main role="main">
+      <section id="title-section" class="section-padding">
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-12 text-center">
+                <h1 class="mt-5"><img class="logo" src="images/logo.png" alt="Logo"></h1>
+                
+              </div>    
+            </div>
+          </div>
+      </section>
+
+      <section id="services-section" class="section-padding">
+          <div class="container">
+                <div class="row">
+                        <div class="jumbotron">
+                                <h1 class="display-6">Administration</h1>
+                                <p class="lead">The Contoso Corporation is a fictional but representative global manufacturing 
+                                    conglomerate with its headquarters in Paris, France. Contoso has deployed Microsoft 365 
+                                    Enterprise and addressed major design decisions and implementation details for networking, 
+                                    identity, Windows 10 Enterprise, Office 365 ProPlus, mobile device management, 
+                                    information protection, and security.</p>
+                                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                    <strong>Hi Administrator!</strong> To get the device Report please click on Connect, once you are done with that report please click Disconnect!
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <hr class="my-6">
+                                <a href="#" id="connect" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Connect</a>
+                                <a href="#" id="disconnect" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">Disconnect</a>
+                        </div>
+                </div>
+                <div class="row">
+                    <div  id="response" class="shadow-sm p-3 mb-5 bg-white rounded"></div>
+                    <div id="statusVisible" class="invisible">
+                      <div class="card">
+                            <h5 class="card-header">Database Device Report</h5>
+                            <div class="card-body">
+                              <h5 class="card-title">Report by device type</h5>
+                              <p id="card-content" class="card-text"><img src="images/admin1.png" alt="Device Reports"></p>
+                            </div>
+                      </div>
+                    </div>
+                </div>
+          </div>
+      </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="text-muted">
+      <div class="container">
+        <p class="float-right">
+          <a href="#">Back to top</a>
+        </p>
+        <p>Contoso Corporation WebSite</p>
+        <p>All the information displayed in this web site has being taken from this reference: 
+          <a href="https://docs.microsoft.com/en-us/microsoft-365/enterprise/contoso-overview">Overview of the Contoso Corporation</a>.
+        </p>
+      </div>
+  </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="styles/jquery/jquery.slim.min.js"></script>
+    <script src="styles/jquery/custom.js"></script>
+    <script src="styles/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+
+    <script type="text/javascript">
+      function ajaxCallback(result) {
+        var jsonResult = result.response;
+        if(jsonResult!=undefined) {
+          $("#statusVisible").removeClass("invisible").addClass("visible");
+          $('#response').html(jsonResult);
+        }
+      }
+
+      function ajaxCallback2(result) {
+        var jsonResult = result.response;
+        if(jsonResult!=undefined) {
+          $('#response').html(jsonResult);
+        }
+      }
+
+      function clean(){
+        if($("#statusVisible").hasClass("visible")){
+            $("#statusVisible").removeClass("visible").addClass("invisible"); 
+          }
+      }
+
+      $(document).ready(function() {
+        $("#connect").click(function(e){
+          clean();
+          apiCallAsync('GET', null,'/api/admin/connect', ajaxCallback);      
+          return false;
+        });
+        $("#disconnect").click(function(e){
+          clean();
+          apiCallAsync('GET', null,'/api/admin/disconnect', ajaxCallback2);
+          return false;
+        });
+      });
+    </script>
+</body>
+</html>
